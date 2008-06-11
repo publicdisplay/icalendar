@@ -212,7 +212,7 @@ module Icalendar
 
       name = $1.upcase # The case insensitive part is upcased for easier comparison...
       paramslist = $2
-      value = $3.gsub("\\;", ";").gsub("\\,", ",").gsub("\\n", "\n").gsub("\\\\", "\\")
+      value = $3.gsub(%r{\\([;,\\])}, '\1').strip.gsub(/\\n|\\N/, "\n")
 
       # Parse the parameters
       params = {}
