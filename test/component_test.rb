@@ -63,4 +63,10 @@ class TestComponent < Test::Unit::TestCase
     @event.x_foobar = "my-custom-property"
     assert_equal("my-custom-property", @event.x_foobar)
   end
+
+  def test_respond_to
+    assert @event.respond_to?("x_custom")
+    assert !@event.respond_to?("invalid_property_name")
+    assert !@event.respond_to?("invalid_property_name_x_foo")
+  end
 end

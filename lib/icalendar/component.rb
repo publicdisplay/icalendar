@@ -427,11 +427,11 @@ module Icalendar
     public
 
     def respond_to?(method_name)
-      unless method_name.to_s.downcase =~ /x_.*/
+      if method_name.to_s.downcase[0,2] == "x_"
+        true
+      else
         super
       end
-
-      true
     end
 
   end # class Component
