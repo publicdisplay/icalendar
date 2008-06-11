@@ -136,31 +136,29 @@ module Icalendar
           key = key[3..-1]
         end
 
-        # Property name
-        unless multiline_property?(key)
-           prelude = "#{key.gsub(/_/, '-').upcase}" + 
-
-           # Possible parameters
-           print_parameters(val) 
-
-           # Property value
-           value = ":#{val.to_ical}" 
-           escaped = prelude + value.gsub("\\", "\\\\").gsub("\n", "\\n").gsub(",", "\\,").gsub(";", "\\;")
-           s << escaped.slice!(0, MAX_LINE_LENGTH) << "\r\n " while escaped.size > MAX_LINE_LENGTH
-           s << escaped << "\r\n"
-           s.gsub!(/ *$/, '')
-         else 
-           prelude = "#{key.gsub(/_/, '-').upcase}" 
-            val.each do |v| 
-               params = print_parameters(v)
-               value = ":#{v.to_ical}"
-               escaped = prelude + params + value.gsub("\\", "\\\\").gsub("\n", "\\n").gsub(",", "\\,").gsub(";", "\\;")
-               s << escaped.slice!(0, MAX_LINE_LENGTH) << "\r\n " while escaped.size > MAX_LINE_LENGTH
-               s << escaped << "\r\n"
-               s.gsub!(/ *$/, '')
-            end
-         end
+        if multi_property?(key)
+          val.each do |v|
+            s << print_property_body(key, v)
+          end
+        else
+          s << print_property_body(key, val)
+        end
       end
+      s
+    end
+
+    def print_property_body(key, val)
+      # Property name
+      prelude = "#{key.gsub(/_/, '-').upcase}"
+      params = print_parameters(val)
+      value = "#{val.to_ical}"
+
+      value = value.gsub(/([,\\;])/, '\\\\\1').gsub("\n", "\\n")
+      escaped = "#{prelude}#{params}:#{value}"
+      s = ""
+      s << escaped.slice!(0, MAX_LINE_LENGTH) << "\r\n " while escaped.size > MAX_LINE_LENGTH
+      s << escaped << "\r\n"
+      # s.gsub!(/ *$/, '') # I don't see how this can possibly do anything
       s
     end
 
