@@ -129,10 +129,10 @@ module Icalendar
     def print_properties
       s = ""
 
-      @properties.each do |key,val| 
+      @properties.each do |key,val|
         # Take out underscore for property names that conflicted
         # with built-in words.
-        if key =~ /ip_.*/
+        if key[0,3] == "ip_"
           key = key[3..-1]
         end
 

@@ -59,6 +59,11 @@ class TestComponent < Test::Unit::TestCase
     assert_equal(foo, @event.comments)
   end
 
+  def test_property_munging
+    @event.x_ip_addr = "my_ip_addr"
+    assert_match /x-ip-addr/i, @event.print_properties
+  end
+
   def test_x_property
     @event.x_foobar = "my-custom-property"
     assert_equal("my-custom-property", @event.x_foobar)
