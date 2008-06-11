@@ -172,13 +172,14 @@ module Icalendar
             if component.respond_to?(adder)
               component.send(adder, value, params)
             else
+              # This would really be a bug.
               raise(UnknownPropertyMethod, "Unknown property type: #{adder}")
             end
           else
             if component.respond_to?(name)
               component.send(name, value, params)
             else
-              raise(UnknownPropertyMethod, "Unknown property type: #{name}")
+              @@logger.debug("Skipping unknown #{component.name} property type: #{name}")
             end
           end
         end  
