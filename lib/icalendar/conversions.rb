@@ -24,7 +24,7 @@ class String
   end
 end
 
-class Fixnum
+class Integer
   def to_ical
     "#{self}"
   end
@@ -54,80 +54,28 @@ end
 
 class DateTime < Date
   def to_ical(utc = false)
-    s = ""
-    
-    # 4 digit year
-    s << self.year.to_s
-    
-    # Double digit month
-    s << "0" unless self.month > 9 
-    s << self.month.to_s
-    
-    # Double digit day
-    s << "0" unless self.day > 9 
-    s << self.day.to_s
-
-    s << "T"
-        
-    # Double digit hour
-    s << "0" unless self.hour > 9 
-    s << self.hour.to_s
-    
-    # Double digit minute
-    s << "0" unless self.min > 9 
-    s << self.min.to_s
-    
-    # Double digit second
-    s << "0" unless self.sec > 9 
-    s << self.sec.to_s
-
-    # UTC time gets a Z suffix
-    if utc
-      s << "Z"
-    end
-
+    s = strftime('%Y%m%dT%H%M%S')
+    s << 'Z' if utc
     s
   end
 end
 
 class Date
-  def to_ical(utc = false)
-    s = ""
-        
-    # 4 digit year
-    s << self.year.to_s
-    
-    # Double digit month
-    s << "0" unless self.month > 9 
-    s << self.month.to_s
-    
-    # Double digit day
-    s << "0" unless self.day > 9 
-    s << self.day.to_s
+  def to_ical()
+    strftime('%Y%m%d')
   end
 end
 
 class Time
   def to_ical(utc = false)
-    s = ""
-
-    # Double digit hour
-    s << "0" unless self.hour > 9 
-    s << self.hour.to_s
-    
-    # Double digit minute
-    s << "0" unless self.min > 9 
-    s << self.min.to_s
-    
-    # Double digit second
-    s << "0" unless self.sec > 9 
-    s << self.sec.to_s
-
-    # UTC time gets a Z suffix
-    if utc
-      s << "Z"
-    end
-
+    s = strftime('%H%M%S')
+    s << 'Z' if gmt?
     s
+  end
+end
+
+class NilClass
+  def to_ical
+    ""
   end
 end
