@@ -42,7 +42,7 @@ module Icalendar
     ical_multi_property :contact, :contact, :contacts
     ical_multi_property :exdate, :exception_date, :exception_dates
     ical_multi_property :exrule, :exception_rule, :exception_rules
-    ical_multi_property :rstatus, :request_status, :request_statuses
+    ical_multi_property :request_status, :request_status, :request_statuses
     ical_multi_property :related_to, :related_to, :related_tos
     ical_multi_property :resources, :resource, :resources
     ical_multi_property :rdate, :recurrence_date, :recurrence_dates

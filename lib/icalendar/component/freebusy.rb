@@ -25,7 +25,7 @@ module Icalendar
     ical_multiline_property :attendee, :attendee, :attendees
     ical_multi_property :comment, :comment, :comments
     ical_multiline_property :freebusy, :freebusy, :freebusys
-    ical_multi_property :rstatus, :request_status, :request_statuses
+    ical_multi_property :request_status, :request_status, :request_statuses
 
     def initialize()
       super("VFREEBUSY")
