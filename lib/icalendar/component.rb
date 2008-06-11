@@ -155,11 +155,7 @@ module Icalendar
 
       value = value.gsub(/([,\\;])/, '\\\\\1').gsub("\n", "\\n")
       escaped = "#{prelude}#{params}:#{value}"
-      s = ""
-      s << escaped.slice!(0, MAX_LINE_LENGTH) << "\r\n " while escaped.size > MAX_LINE_LENGTH
-      s << escaped << "\r\n"
-      # s.gsub!(/ *$/, '') # I don't see how this can possibly do anything
-      s
+      escaped.scan(/.{1,#{MAX_LINE_LENGTH}}/).join("\r\n ") + "\r\n"
     end
 
     # Print the parameters for a specific property
