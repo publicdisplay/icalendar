@@ -97,7 +97,7 @@ module Icalendar
         fields = parse_line(line)
 
         # Just iterate through until we find the beginning of a calendar object
-        if fields[:name] == "BEGIN" and fields[:value] == "VCALENDAR"
+        if fields[:name] == "BEGIN" and fields[:value] =~ /^VCALENDAR$/i
           cal = parse_component
           @@logger.debug "Added parsed calendar..."
           calendars << cal
@@ -127,21 +127,21 @@ module Icalendar
           break
         elsif name == "BEGIN" # New component
           case(fields[:value])
-          when "VEVENT" # Event
+          when /^VEVENT$/i # Event
             component.add_component parse_component(Event.new)
-          when "VTODO" # Todo entry
+          when /^VTODO$/i # Todo entry
             component.add_component parse_component(Todo.new)
-          when "VALARM" # Alarm sub-component for event and todo
+          when /^VALARM$/i # Alarm sub-component for event and todo
             component.add_component parse_component(Alarm.new)
-          when "VJOURNAL" # Journal entry
+          when /^VJOURNAL$/i # Journal entry
             component.add_component parse_component(Journal.new)
-          when "VFREEBUSY" # Free/Busy section
+          when /^VFREEBUSY$/i # Free/Busy section
             component.add_component parse_component(Freebusy.new)
-          when "VTIMEZONE" # Timezone specification
+          when /^VTIMEZONE$/i # Timezone specification
             component.add_component parse_component(Timezone.new)
-          when "STANDARD" # Standard time sub-component for timezone
+          when /^STANDARD$/i # Standard time sub-component for timezone
             component.add_component parse_component(Standard.new)
-          when "DAYLIGHT" # Daylight time sub-component for timezone
+          when /^DAYLIGHT$/i # Daylight time sub-component for timezone
             component.add_component parse_component(Daylight.new)
           else # Uknown component type, skip to matching end
             until ((line = next_line) == "END:#{fields[:value]}"); end
