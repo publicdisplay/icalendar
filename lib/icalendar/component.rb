@@ -26,6 +26,36 @@ module Icalendar
     end
   end
 
+  class Duration
+    DURATION_REGEX = '([-+])?P(\d+W)?(\d+D)?T?(\d+H)?(\d+M)?(\d+S)?'
+    attr_accessor :seconds
+
+    def initialize(str)
+      @str = str
+      parse
+    end
+
+    def parse
+      unless match = %r{\s*#{DURATION_REGEX}\s*}.match(str)
+        raise InvalidEncodingError, "duration not valid (#{str})"
+      end
+
+      seconds = 0
+      seconds = match[2].to_i # Week
+
+      seconds *= 7 # Days
+      seconds += match[3].to_i
+      seconds *= 24 # Hours
+      seconds += match[4].to_i
+      seconds *= 60 # Minutes
+      seconds += match[5].to_i
+      seconds *= 60 # Seconds
+      seconds += match[6].to_i
+      seconds = -seconds if match[1] == '-'
+      @seconds = seconds
+    end
+  end
+
   # The body of the iCalendar object consists of a sequence of calendar
   # properties and one or more calendar components. The calendar
   # properties are attributes that apply to the calendar as a whole. The
