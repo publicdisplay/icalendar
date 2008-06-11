@@ -203,7 +203,7 @@ module Icalendar
     PVALUE  = "#{QSTR}|#{PTEXT}"
 
     # param = name "=" param-value *("," param-value)
-    PARAM = ";(#{NAME})(=?)((?:#{PVALUE})(?:,#{PVALUE})*)"
+    PARAM = "\s*;\s*(#{NAME})(=?)((?:#{PVALUE})(?:,#{PVALUE})*)\s*"
 
     def parse_line(line)
       unless line =~ %r{#{LINE}}i # Case insensitive match for a valid line
