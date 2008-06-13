@@ -318,11 +318,13 @@ module Icalendar
     # NOTE: invalid dates & times will be returned as strings...
     def parse_datetime(name, params, value)
       begin
-        DateTime.parse(value)
-      rescue Exception
+        dt = DateTime.parse(value)
+        dt.meta_def(:utc?) { value =~ /Z$/ }
+        dt
+      rescue
+        @@logger.error "Error parsing #{name} of value #{value}"
         value
       end
-
     end
 
     # Durations
@@ -355,7 +357,7 @@ module Icalendar
     def parse_uri(name, params, value)
       begin
         URI.parse(value)
-      rescue Exception
+      rescue
         value
       end
     end
