@@ -22,9 +22,9 @@ X-TIME-OF-DAY:101736Z
 CATEGORIES:foo
 CATEGORIES:bar
 CATEGORIES:baz
-GEO:46.01\\;8.57
+GEO:46.01;8.57
 DESCRIPTION:desc
-DTSTART:20060720
+DTSTART;VALUE=DATE:20060720
 DTSTAMP:20060720T174052
 END:VEVENT
 END:VCALENDAR
@@ -56,7 +56,7 @@ EOS
       organizer(URI::MailTo.build(['joe@example.com', 'subject=Ruby']))
       
       # Date
-      start  Date.parse("2006-07-20")
+      start  Date.parse("2006-07-20"), "VALUE" => ["DATE"]
 
       # DateTime
       timestamp DateTime.parse("2006-07-20T17:40:52+0200")
