@@ -188,7 +188,7 @@ module Icalendar
       component
     end
 
-    # 1*(ALPHA / DIGIT / "=")
+    # 1*(ALPHA / DIGIT / "-")
     NAME    = '[-a-z0-9]+'
 
     # <"> <Any character except CTLs, DQUOTE> <">
@@ -216,7 +216,7 @@ module Icalendar
       value = $3.gsub(%r{\\([;,\\])}, '\1').strip.gsub(/\\n|\\N/, "\n")
 
       # Parse the parameters
-      params = {}
+      params = Hash.new { |h,k| h[k] = [] }
       if paramslist.size > 1
         paramslist.scan( %r{#{PARAM}}i ) do
 
@@ -238,12 +238,6 @@ module Icalendar
           else
             pname = 'type'
           end
-        end
-
-        # Make entries into the params dictionary where the name
-        # is the key and the value is an array of values.
-        unless params.key? pname
-          params[pname] = []
         end
 
         # Save all the values into the array.
