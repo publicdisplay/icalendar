@@ -16,6 +16,7 @@ PRODID:iCalendar-Ruby
 BEGIN:VEVENT
 LAST-MODIFIED:19960817T133000
 SEQUENCE:2
+RRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=10
 ORGANIZER:mailto:joe@example.com?subject=Ruby
 UID:foobar
 X-TIME-OF-DAY:101736Z
@@ -35,7 +36,7 @@ EOS
   end
 
   def test_to_ical_conversions
-    @cal.event do 
+    event = @cal.event do 
       # String
       description "desc"
 
@@ -66,7 +67,8 @@ EOS
 
       uid "foobar"
     end
-       
+    event.add_recurrence_rule("FREQ=WEEKLY;INTERVAL=1;COUNT=10")
+
     assert_equal(RESULT.gsub("\n", "\r\n"), @cal.to_ical)
   end
 

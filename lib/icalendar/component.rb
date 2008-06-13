@@ -183,7 +183,14 @@ module Icalendar
       params = print_parameters(val)
       value = "#{val.to_ical}"
 
-      value = value.gsub(/([,\\;])/, '\\\\\1').gsub("\n", "\\n")
+      # Technically, only properties with a TEXT value should be escaped.
+      # There are properties with non-text value types whose
+      # string representations of valid values would be incorrectly escaped.
+      # Specifically, those with the RRULE, BINARY, and geo's custom
+      # "FLOAT;FLOAT".
+      if String === val && !%w{attach geo exrule rrule}.include?(key)
+        value = value.gsub(/([,\\;])/, '\\\\\1').gsub("\n", "\\n")
+      end
       escaped = "#{prelude}#{params}:#{value}"
       escaped.scan(/.{1,#{MAX_LINE_LENGTH}}/).join("\r\n ") + "\r\n"
     end
