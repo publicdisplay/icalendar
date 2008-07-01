@@ -31,11 +31,11 @@ module Icalendar
     attr_accessor :seconds
 
     def initialize(str)
-      @str = str
-      parse
+      parse(str)
     end
 
-    def parse
+    private
+    def parse(str)
       unless match = %r{\s*#{DURATION_REGEX}\s*}.match(str)
         raise InvalidEncodingError, "duration not valid (#{str})"
       end
