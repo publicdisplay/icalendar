@@ -27,6 +27,13 @@ module Icalendar
     ical_multiline_property :freebusy, :freebusy, :freebusys
     ical_multi_property :request_status, :request_status, :request_statuses
 
+    # As of 7/22/2008, Google Calendar violates RFC2445 by permitting the
+    # following properties of VFREEBUSY components.
+    ical_multi_property :rdate, :recurrence_date, :recurrence_dates
+    ical_multi_property :rrule, :recurrence_rule, :recurrence_rules
+    ical_multi_property :exdate, :exception_date, :exception_dates
+    ical_multi_property :exrule, :exception_rule, :exception_rules
+
     def initialize()
       super("VFREEBUSY")
 
