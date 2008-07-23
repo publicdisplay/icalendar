@@ -27,7 +27,7 @@ module Icalendar
     ical_property :organizer
     ical_property :percent
     ical_property :priority
-    ical_property :recurid, :recurrence_id
+    ical_property :recurrence_id, :recurid
     ical_property :seq, :sequence
     ical_property :status
     ical_property :summary

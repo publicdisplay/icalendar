@@ -32,7 +32,7 @@ module Icalendar
     ical_property :summary
     ical_property :uid, :user_id
     ical_property :url
-    ical_property :recurid, :recurrence_id
+    ical_property :recurrence_id, :recurid
 
     # Multi-properties
     ical_multi_property :attach, :attachment, :attachments
