@@ -173,7 +173,7 @@ module Icalendar
               component.send(adder, value, params)
             else
               # This would really be a bug.
-              raise(UnknownPropertyMethod, "Unknown property type: #{adder}")
+              raise(UnknownPropertyMethod, "Unknown #{component.name} property type: #{adder}")
             end
           else
             if component.respond_to?(name)
@@ -208,7 +208,7 @@ module Icalendar
 
     def parse_line(line)
       unless line =~ %r{#{LINE}}i # Case insensitive match for a valid line
-        raise "Invalid line in calendar string!"
+        raise "Invalid line in calendar string: #{line}"
       end
 
       name = $1.upcase # The case insensitive part is upcased for easier comparison...
