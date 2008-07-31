@@ -55,7 +55,7 @@ end
 class DateTime < Date
   def to_ical(utc = false)
     s = strftime('%Y%m%dT%H%M%S')
-    s << 'Z' if utc
+    s << 'Z' if offset == 0 || utc
     s
   end
 end
@@ -69,7 +69,7 @@ end
 class Time
   def to_ical(utc = false)
     s = strftime('%H%M%S')
-    s << 'Z' if gmt?
+    s << 'Z' if utc? || utc
     s
   end
 end
